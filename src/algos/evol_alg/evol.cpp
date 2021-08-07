@@ -26,7 +26,7 @@ int** EA::solve() {
   int par_1, par_2, cross_slot;
   solution_set tmp_sols, current_sols;
   Score score(pd);
-  int sol_c = 0, gen = 0;
+  int sol_c, gen = 0;
 
   // START OF UNNECESARY PREFACE
   // init child sol in heap
@@ -94,6 +94,7 @@ int** EA::solve() {
   initial_sols(current_sols.t);
 
   while (gen < n_gens) {
+    sol_c = 0;
     while (sol_c < n_sols/2) {
       // get 2 random parents
       par_1 = rand() % n_sols;
