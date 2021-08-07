@@ -1,29 +1,36 @@
 #ifndef EVOL_H
 #define EVOL_H
 
+#include "../../common.hpp"
 #include "../../util/parser.hpp"
-/*
+#include "../../util/score.hpp"
+#include "../../util/debug.hpp"
+#include "../greedy/gmh.hpp"
+#include "structs.hpp"
+
+bool sol_comparator(solution*, solution*);
+
 class EA {
     p_data* pd;
-    int** ump_assign;
-    const int penalty = 1000000;
-    const int incentive_bonus = 10000;
-    const int big_num = 67108863;
+    int n_gens;
+    solution* curr_best_sol;
+    const float mutation_p = 0.45;
+    const int n_sols = 260;
+    const int n_child = n_sols/2;
 
   public:
     EA(p_data*);
     int** solve();
-    int incentive(int, int, int);
-    int distance(int, int);
-    int num_violations(int, int, int);
-    int objective_cost(int, int, int);
-    bool is_feasible(int*, int);
-    void random_assignment(int*, int);
-    int get_slot_score(int);
-    void get_home_teams(int*, int);
-    void save_if_best(slot_s*, int, int);
-    int consecutive_home_visit_violations(int, int, int);
-    int consecutive_team_seen_violations(int, int, int);
+    void eval_scores(solution**, Score*, int);
+    void dist_scores(solution**, Score*);
+    void initial_sols(solution**);
+    void crossover(solution*, solution*, int**, int);
+    void get_best_sol(solution**);
+    void save_sol(solution*, int**);
+    void copy_solutions(solution**, solution**, int);
+    bool sol_inside(solution**, int**, int);
+    void mutation(solution**);
+    void mutation_operator(solution*);
 };
-*/
+
 #endif

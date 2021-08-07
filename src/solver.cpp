@@ -2,22 +2,27 @@
 #include "util/parser.hpp"
 #include "util/debug.hpp"
 #include "algos/greedy/gmh.hpp"
+#include "algos/evol_alg/evol.hpp"
+#include <chrono>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
     p_data pd;
-    int** initial_sol;
+    int** sol;
 
     // parse problem data from args and file
     parse_data(argc, argv, &pd);
 
-    // get a feasible solution with a greedy heuristic
-    GMH greedy_heuristic(&pd);
-    initial_sol = greedy_heuristic.solve();
+    Score score(&pd);
+    EA evol_algorithm(&pd);
 
-    output_solution(initial_sol, pd.n_slots, pd.n_ump);
+    // call genetic algorithm, timing execution
+    auto t_start = chrono::high_resolution_clock::now();
+    sol = evol_algorithm.solve();
+    auto t_end = chrono::high_resolution_clock::now();
 
-    // use sol and call genetic algorithm
+    double elapsed_time_ms = chrono::duration<double, milli>(t_end-t_start).count();
 
+    score.show_solution(sol, elapsed_time_ms);
 }
